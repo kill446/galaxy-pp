@@ -118,7 +118,17 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
-    <value>3.0.8
+    <value>3.1.0
+* Fixed an issue where pointers to a byte would be fetched as int when used as an array index.
+* Fixed an error that occured when the compiler tried to inline a method called from a field declaration.
+* It is now possible to save an open project under a different name.
+* It is now possible to open an existing project G++ project, that has not yet been added to the list of projects.
+From Slarti:
+* The editor now parses libraries from starcraft at startup, so libraries are always updated.
+* Fixed a bug in the MakeBackups method of the MpqEditor class to also remove backups of component style maps.
+* The editor now checks the registry for the location of Starcraft II before asking the user.
+
+3.0.8
 * Indexing an array with a byte will now be transformed to be valid galaxy code.
 * Fixed an issue where no suggestions would be shown in the suggestion list after a cast.
 * Fixed a bug where Invoke&lt;this-&gt;foo&gt;() caused an error.
