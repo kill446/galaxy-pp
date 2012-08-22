@@ -45,6 +45,13 @@ namespace Galaxy_Editor_2
     {
 
 
+        //[STAThread]
+        //static void Main(string[] args)
+        //{
+        //    Console.WriteLine(StarCraftExecutableFinder.findExecutable());
+        //    FunctionExtractor.LoadFunctions();
+        //}
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -133,8 +140,8 @@ namespace Galaxy_Editor_2
             client.Close();*/
 
 
-           
-            
+
+
 
             Application.ThreadException += ErrorHandeler;
             Application.EnableVisualStyles();

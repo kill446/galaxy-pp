@@ -2702,21 +2702,13 @@ namespace Galaxy_Editor_2
                     }
                 }
 
+                // make sure the StarCraft2.exe is known to start it
                 FileInfo sc2Exe = Options.General.SC2Exe;
-
-                while (sc2Exe == null || !sc2Exe.Exists)
+                if (sc2Exe == null || !StarCraftExecutableFinder.checkPathValidity(sc2Exe.FullName))
                 {
-                    MessageBox.Show(this, "I lost track of where Starcraft II is located. Can you help me?", "Missing data");
-                    OpenFileDialog dialog = new OpenFileDialog();
-                    dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                    dialog.InitialDirectory = dialog.InitialDirectory.Substring(0, dialog.InitialDirectory.IndexOf("\\"));
-                    dialog.Filter = "StarCraft II (Starcraft II.exe)|Starcraft II.exe";
-                    if (dialog.ShowDialog(this) == DialogResult.Cancel)
-                    {
-                        saveCompiledMapAs = false;
-                        return;
-                    }
-                    sc2Exe = Options.General.SC2Exe = new FileInfo(dialog.FileName);
+                    FileInfo info = new FileInfo(StarCraftExecutableFinder.findExecutable());
+                    if (info.Exists)
+                        sc2Exe = Options.General.SC2Exe = info;
                 }
 
                 if (saveCompiledMap)

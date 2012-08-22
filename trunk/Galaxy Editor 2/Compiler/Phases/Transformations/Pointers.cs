@@ -589,7 +589,7 @@ namespace Galaxy_Editor_2.Compiler.Phases.Transformations
                                 oldReturnTypes.ContainsKey(pMethod) ? oldReturnTypes[pMethod] : pMethod.GetReturnType(),
                                 true, false, false);
                 }
-                if (pMethod != null)
+                if (pMethod != null && oldReturnTypes.ContainsKey(pMethod))
                 {
                     PType oldType = oldReturnTypes[pMethod];
                     
