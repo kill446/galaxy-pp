@@ -1440,28 +1440,16 @@ namespace Galaxy_Editor_2.Compiler
 
         public void LoadLibraries()
         {
-            LibraryData lib = new LibraryData();
-            FileInfo precompFile = new FileInfo("Precompiled.LibraryData");
-            if (!precompFile.Exists)
+            if (Options.General.SC2Exe == null || !StarCraftExecutableFinder.checkPathValidity(Options.General.SC2Exe.FullName))
             {
-                MessageBox.Show(form, "Unable to load library. File not found.", "Error");
-                return;
+                FileInfo info = new FileInfo(StarCraftExecutableFinder.findExecutable());
+                if (info.Exists)
+                {
+                    Options.General.SC2Exe = info;
+                }
             }
-            IFormatter formatter = new BinaryFormatter();
-            Stream stream = precompFile.OpenRead();
-            try
-            {
-                lib.Join((LibraryData)formatter.Deserialize(stream));
-                stream.Close();
-            }
-            catch (Exception err)
-            {
-                stream.Close();
 
-                MessageBox.Show(form, "Error parsing library.", "Error");
-                return;
-            }
-            libraryData = lib;
+            libraryData = FunctionExtractor.LoadFunctions();
         }
 
         public void LoadLibraries(List<DirectoryInfo> libraries)

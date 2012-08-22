@@ -310,38 +310,46 @@ namespace Galaxy_Editor_2
             if (Options.Compiler.NumberOfMapBackups > 0)
             {
                 List<FileSystemInfo> currentBackups = new List<FileSystemInfo>();
-                foreach (string file in Directory.GetFiles(owner.openProjectDir.FullName))
+
+                // Add backup of normal sc2 map files
+                foreach (string file in Directory.GetFiles(owner.openProjectDir.FullName, "*.Sc2Map"))
                 {
-                    if (file.EndsWith(".SC2Map"))
-                        currentBackups.Add(new FileInfo(file));
+                    currentBackups.Add(new FileInfo(file));
                 }
-                if (currentBackups.Count == 0)
+
+                // Add backup directories of sc2 component style maps
+                foreach (string directory in Directory.GetDirectories(owner.openProjectDir.FullName, "*.Sc2Map"))
                 {
-                    CopyTo(map, owner.openProjectDir.FullName + "\\Backup" +
-                                (ulong) (DateTime.Now - new DateTime(0)).TotalSeconds + ".SC2Map");
+                    currentBackups.Add(new DirectoryInfo(directory));
                 }
-                else
+
+                currentBackups.Sort((a, b) => a.Name.CompareTo(b.Name));
+
+                // Check for previous backups
+                while (currentBackups.Count > 0 && currentBackups.Count >= Options.Compiler.NumberOfMapBackups)
                 {
-                    while (currentBackups.Count >= Options.Compiler.NumberOfMapBackups)
+                    // There are previous backups. find the oldest one
+                    FileSystemInfo oldest = currentBackups[0];
+
+                    // Remove the backup
+                    if (oldest is DirectoryInfo)
                     {
-                        //Remove oldest
-                        FileSystemInfo oldest = currentBackups[0];
-                        foreach (FileSystemInfo backup in currentBackups)
-                        {
-                            if (oldest.Name.CompareTo(backup.Name) == 1)
-                                oldest = backup;
-                        }
-                        if (oldest is DirectoryInfo)
-                            //((DirectoryInfo)oldest).Delete(true);
-                            Form1.DeleteDir(oldest.FullName);
-                        else
-                            oldest.Delete();
-                        currentBackups.Remove(oldest);
+                        ((DirectoryInfo) oldest).Delete(true);
                     }
-                    //Make name
-                    string name = owner.openProjectDir.FullName + "\\Backup" + (ulong)(DateTime.Now - new DateTime(0)).TotalSeconds + ".SC2Map";
-                    CopyTo(map, name);
+                    else
+                    {
+                        oldest.Delete();
+                    }
+                    currentBackups.Remove(oldest);
                 }
+
+                // Create backup
+                string newBackupPath = 
+                    owner.openProjectDir.FullName +
+                    @"\Backup" +
+                    (ulong)(DateTime.Now - new DateTime(0)).TotalSeconds +
+                    ".SC2Map";
+                CopyTo(map, newBackupPath);
             }
         }
 

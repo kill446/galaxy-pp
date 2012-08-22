@@ -86,6 +86,7 @@
     <Compile Include="Change log form.Designer.cs">
       <DependentUpon>Change log form.cs</DependentUpon>
     </Compile>
+    <Compile Include="StarCraftExecutableFinder.cs" />
     <Compile Include="CompileModWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -306,6 +307,7 @@
     <Compile Include="Editor control\MyEditor.Designer.cs">
       <DependentUpon>MyEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="FunctionExtractor.cs" />
     <Compile Include="GalaxyKeywords.cs" />
     <Compile Include="GetStringDialog.cs">
       <SubType>Form</SubType>
