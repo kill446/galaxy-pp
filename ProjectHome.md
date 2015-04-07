@@ -1,0 +1,1 @@
+The client side source code for the Galaxy++ Editor
